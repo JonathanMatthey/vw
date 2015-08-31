@@ -1,0 +1,23 @@
+{
+  "name": "vimeo-wall",
+  "version": "0.1.0",
+  "homepage": "http://jonathanmatthey.com",
+  "authors": [
+    "Jonathan Matthey <mattheyj@gmail.com>"
+  ],
+  "description": "little vimeo api reactjs experiment",
+  "keywords": [
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+  }
+}
