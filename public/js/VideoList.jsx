@@ -4,58 +4,59 @@ import ClassNames from 'classnames'
 
 export const VideoList = React.createClass({
 
-  getInitialState:function() {
-    return {
-      videos: [],
-      pauseWall: false
-    };
-  },
-
   componentDidMount:function() {
-    this.getStaffPicks(1);
-    this.getStaffPicks(2);
-    this.getStaffPicks(3);
-    this.getStaffPicks(1);
   },
 
   handleVideoClick:function() {
-    console.log('handleVideoClick');
-    this.setState({
-      'pauseWall': !this.state.pauseWall
-    })
-  },
-
-  getStaffPicks:function(page) {
-    var self = this;
-    return fetch('http://vimeo.com/api/v2/channel/staffpicks/videos.json?page=' + page).then(function(response) {
-      if (response.status !== 200) return Promise.reject('Failed to get vimeo staff picks')
-      return response.json().then(function(json) {
-        let vids = self.state.videos;
-        self.setState({
-          videos: vids.concat(json)
-        });
-      })
-    })
   },
 
   render:function() {
-    const x = 'x';
-    console.log('videos ??',this.state.videos);
+    let videoListColStyles = {};
+    // not ideal, ...spread operator should prob be used... or Classnames
+    $.extend(true,videoListColStyles,styles.videoListCol,this.props.style);
     return (
-      <div style={styles.videoList} className={ClassNames('video-wall', {'paused': this.state.pauseWall })}>
-        {this.state.videos.map(function(video, i) {
-          return (
-            <VideoSquare onVideoSquareClick={this.handleVideoClick} video={video}/>
-          )
-        }, this)}
+      <div id="video-list-col" style={videoListColStyles}>
+        <h4 style={styles.heading}>{this.props.title}</h4>
+        <ul id="video-list" style={styles.videoList}>
+          {this.props.videos.map(function(video, i) {
+            return (
+              <li key={i} style={styles.videoItem}>
+                {video.title}
+              </li>
+            )
+          }, this)}
+        </ul>
       </div>
     );
   }
 });
 
 let styles = {
+  videoListCol: {
+    position: 'absolute',
+    bottom: 10,
+    margin: 0,
+    padding: 0,
+  },
+  heading: {
+    color:'#aaa',
+    margin:5,
+    padding:0,
+    fontFamily: '"Helvetica Neue", Helvetica, Arial',
+  },
   videoList: {
-    fontSize: 0,
-    width: '100%'
+    color: '#999',
+    fontSize: 15,
+    listStyle: 'none',
+    margin: 0,
+    padding: 0,
+  },
+  videoItem:{
+    padding: '5px 10px',
+    fontSize: 14,
+    background: '#333',
+    margin: 2,
+    fontFamily: '"Helvetica Neue", Helvetica, Arial',
+    maxWidth: 150,
   }
 };

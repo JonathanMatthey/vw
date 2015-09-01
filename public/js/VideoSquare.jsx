@@ -11,31 +11,31 @@ export const VideoSquare = React.createClass({
   },
 
   handleClick: function(e){
-    this.setState({
-      'playing': !this.state.playing
-    })
     this.props.onVideoSquareClick();
+  },
+
+  componentDidMount: function() {
+    var self = this;
   },
 
   render:function() {
     let video = this.props.video || {};
+    let videoId = video.id.toString();
+
     styles.square.backgroundImage = 'url(' + video.thumbnail_large + ')'
     styles.userAvatar.backgroundImage = 'url(' + video.user_portrait_medium + ')'
 
-    if(video.url) {
-    }
-
     return (
-      <div style={styles.square} onClick={this.handleClick}>
-        <Vimeo className='vimeo-player' videoId={ video.id } />
+      <li className={'video-square pane'+this.props.index} onClick={this.handleClick}>
+        <Vimeo className='vimeo-player' videoId={ videoId } />
         <div className={ClassNames('video-meta',{'hide':this.state.playing})} style={styles.meta}>
-          <div style={styles.userAvatar}></div>
           <div style={styles.metaText}>
+            <div style={styles.userAvatar}></div>
             <div style={styles.title}>{video.title}</div>
-            <div style={styles.author}>{video.user_name}</div>
+            <div style={styles.author}>from {video.user_name}</div>
           </div>
         </div>
-      </div>
+      </li>
     );
   }
 });
@@ -43,8 +43,8 @@ export const VideoSquare = React.createClass({
 let styles = {
   square: {
     display: 'inline-block',
-    paddingTop: '20%',
-    width: '33.3%',
+    height: 170,
+    width: '320px',
     backgroundPosition: 'center center',
     backgroundSize: 'cover',
     position: 'relative',
@@ -54,39 +54,36 @@ let styles = {
   meta: {
     position: 'absolute',
     bottom: 0,
+    height: 60,
     width: '100%',
   },
   metaText: {
-    display: 'inline-block',
     verticalAlign: 'top',
-    width: '80%'
+    width:'100%',
   },
   title: {
     fontSize: 18,
-    marginTop: 8,
+    marginTop: 3,
     lineHeight: '24px',
     color: 'white',
     fontWeight: 'bold',
     fontFamily: '"Helvetica Neue", Helvetica, Arial',
-    whiteSpace: 'nowrap',
-    maxWidth: '90%',
-    textOverflow: 'ellipsis',
-    overflow: 'hidden',
   },
   author: {
     fontFamily: '"Helvetica Neue", Helvetica, Arial',
     lineHeight: '20px',
     fontSize: 14,
     color: 'white',
+    opacity: 0.5
   },
   userAvatar: {
-    margin: 5,
-    marginRight: 10,
-    display: 'inline-block',
     width: 50,
     height: 50,
     backgroundPosition: 'center center',
     backgroundSize: 'cover',
-    zIndex: 9
+    zIndex: 9,
+    position: 'absolute',
+    left: 0,
+    bottom: 10
   }
 };
